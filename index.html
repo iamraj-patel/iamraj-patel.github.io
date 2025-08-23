@@ -48,16 +48,28 @@
     overflow-x: hidden;
   }
 
-  /* Header */
+  /* Header with Animated Gradient */
   header {
     position: relative;
     padding: 2.6rem 1.2rem 2.4rem 1.2rem;
-    background: linear-gradient(109deg, var(--primary) 60%, var(--accent) 100%);
     color: #fff;
     text-align: center;
     box-shadow: 0 6px 40px rgba(25, 120, 210, 0.12);
     z-index: 10;
+    /* --- Start of Changes --- */
+    background: linear-gradient(-45deg, #1976d2, #2196f3, #fbbc05, #ff9800);
+    background-size: 400% 400%;
+    animation: gradientFlow 12s ease infinite;
+    /* --- End of Changes --- */
   }
+
+  /* Keyframes for the animated gradient */
+  @keyframes gradientFlow {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+  }
+
 
   /* New toggle: pill with animated knob (accessible) */
   .theme-toggle {
@@ -310,7 +322,6 @@
 </head>
 <body data-theme="dark">
   <header>
-    <!-- New accessible pill toggle. It defaults to dark; JS will set class 'light' when light mode is active. -->
     <button
       id="themeBtn"
       class="theme-toggle"
