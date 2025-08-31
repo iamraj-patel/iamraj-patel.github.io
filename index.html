@@ -13,30 +13,51 @@
 :root {
   --font-body: 'Inter', sans-serif;
   --font-heading: 'Poppins', sans-serif;
-  --primary: #1976d2;
-  --accent: #fbbc05;
-  --bg: #f4f6fb;
-  --card: #ffffff;
-  --text: #333333;
-  --text-secondary: #555e68;
-  --divider: #e2e5ea;
+  
+  /* Light Theme */
+  --primary-light: #1976d2;
+  --accent-light: #fbbc05;
+  --text-light: #2d3748;
+  --text-secondary-light: #4a5568;
+  --card-bg-light: rgba(255, 255, 255, 0.55);
+  --card-gradient-light: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%); /* NEW */
+  --item-bg-light: rgba(255, 255, 255, 0.7);
+  --border-light: rgba(255, 255, 255, 0.3);
+  --body-bg-light: #f4f6fb; /* Fallback color */
+  
+  /* Dark Theme */
   --primary-dark: #7bb6ff;
   --accent-dark: #fbc964;
-  --bg-dark: #0f1724;
-  --card-dark: #1b2537;
   --text-dark: #e9f1fc;
   --text-secondary-dark: #a0aec0;
-  --divider-dark: #203147;
+  --card-bg-dark: rgba(27, 37, 55, 0.55);
+  --card-gradient-dark: linear-gradient(135deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0) 100%); /* NEW */
+  --item-bg-dark: rgba(27, 37, 55, 0.7);
+  --border-dark: rgba(255, 255, 255, 0.1);
+  --body-bg-dark: #0f1724; /* Fallback color */
+}
+
+/* Default to light theme variables */
+:root {
+  --primary: var(--primary-light);
+  --accent: var(--accent-light);
+  --text: var(--text-light);
+  --text-secondary: var(--text-secondary-light);
+  --card-bg: var(--card-bg-light);
+  --card-gradient: var(--card-gradient-light); /* NEW */
+  --item-bg: var(--item-bg-light);
+  --border-color: var(--border-light);
 }
 
 body[data-theme="dark"] {
   --primary: var(--primary-dark);
   --accent: var(--accent-dark);
-  --bg: var(--bg-dark);
-  --card: var(--card-dark);
   --text: var(--text-dark);
   --text-secondary: var(--text-secondary-dark);
-  --divider: var(--divider-dark);
+  --card-bg: var(--card-bg-dark);
+  --card-gradient: var(--card-gradient-dark); /* NEW */
+  --item-bg: var(--item-bg-dark);
+  --border-color: var(--border-dark);
 }
 
 * { box-sizing: border-box; }
@@ -45,13 +66,26 @@ body {
   margin: 0;
   min-height: 100vh;
   font-family: var(--font-body);
-  background: var(--bg);
   color: var(--text);
-  transition: background 0.45s ease, color 0.35s ease;
+  transition: color 0.45s ease;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   line-height: 1.7;
+  
+  /* ## NEW: Dynamic Background ## */
+  background-color: var(--body-bg-light); /* Fallback */
+  background-image: radial-gradient(at 8% 13%, hsla(215, 98%, 71%, 0.3) 0px, transparent 50%),
+                    radial-gradient(at 94% 88%, hsla(125, 98%, 72%, 0.3) 0px, transparent 50%),
+                    radial-gradient(at 44% 88%, hsla(35, 98%, 72%, 0.2) 0px, transparent 50%);
+  background-attachment: fixed;
+}
+
+body[data-theme="dark"] {
+  background-color: var(--body-bg-dark); /* Fallback */
+  background-image: radial-gradient(at 8% 13%, hsla(215, 98%, 21%, 0.5) 0px, transparent 50%),
+                    radial-gradient(at 94% 88%, hsla(125, 98%, 22%, 0.4) 0px, transparent 50%),
+                    radial-gradient(at 44% 88%, hsla(35, 98%, 32%, 0.3) 0px, transparent 50%);
 }
 
 /* ## HEADER & HERO SECTION ## */
@@ -60,7 +94,7 @@ header {
   padding: 3rem 1.5rem;
   color: #fff;
   text-align: center;
-  box-shadow: 0 6px 40px rgba(25, 120, 210, 0.12);
+  box-shadow: 0 6px 40px rgba(0, 0, 0, 0.1);
   z-index: 10;
   background: linear-gradient(-45deg, #1976d2, #2196f3, #fbbc05, #ff9800);
   background-size: 400% 400%;
@@ -88,11 +122,10 @@ header {
   align-items: center;
   justify-content: space-between;
   gap: 6px;
-  transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.18s ease;
+  transition: all 0.25s ease;
   box-shadow: 0 4px 14px rgba(0,0,0,0.12);
 }
 .theme-toggle:hover { transform: translateY(-2px); }
-.theme-toggle:focus-visible { outline: 2px solid rgba(255,255,255,0.3); }
 .theme-toggle .icon {
   width: 24px; height: 24px; display:flex; align-items:center; justify-content:center;
   color: rgba(255,255,255,0.95); font-size: 14px; user-select: none; pointer-events: none;
@@ -100,7 +133,7 @@ header {
 }
 .theme-toggle .knob {
   position: absolute; top: 4px; left: 4px; width: 28px; height: 28px; border-radius: 999px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(250,250,250,0.95));
+  background: #fff;
   box-shadow: 0 6px 18px rgba(10, 20, 40, 0.24);
   transition: left 0.32s cubic-bezier(.2,.9,.3,1), transform 0.28s ease;
 }
@@ -131,27 +164,34 @@ h2 { color: var(--primary); font-size: 1.8rem; font-weight: 600; margin-bottom: 
   display: inline-flex; align-items: center; gap: 0.6em;
 }
 .contact a:hover {
-  background: #fff; color: var(--primary); transform: translateY(-3px) scale(1.05);
+  background: #fff; color: #1976d2; transform: translateY(-3px) scale(1.05);
   box-shadow: 0px 6px 15px rgba(0,0,0,0.2);
 }
 .contact a svg { width: 18px; height: 18px; }
 
-/* ## MAIN LAYOUT & CARDS ## */
+/* ## MAIN LAYOUT & "GLASS" CARDS ## */
 main {
   max-width: 900px; margin: 0 auto; padding: 0 1rem 3rem 1rem;
 }
 .card {
-  background: var(--card); border-radius: 18px; margin-top: 2.5rem;
+  margin-top: 2.5rem;
   padding: 2.2rem 2.5rem;
-  border: 1px solid var(--divider);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+  border-radius: 18px;
+  
+  /* The "Frosted Glass" effect */
+  background-color: var(--card-bg);
+  background-image: var(--card-gradient); /* NEW */
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border-color);
+  
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 }
-body[data-theme="dark"] .card { border-color: transparent; }
 
 .card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 14px 45px rgba(0,0,0,0.1);
+  box-shadow: 0 14px 45px rgba(0,0,0,0.15);
 }
 main > section:first-of-type { margin-top: 3rem; }
 
@@ -167,7 +207,7 @@ main > section:first-of-type { margin-top: 3rem; }
   color: var(--primary);
   margin-top: 0;
   margin-bottom: 1rem;
-  border-bottom: 2px solid var(--divider);
+  border-bottom: 1px solid var(--border-color);
   padding-bottom: 0.5rem;
 }
 .skills-list {
@@ -175,18 +215,19 @@ main > section:first-of-type { margin-top: 3rem; }
   list-style: none; margin: 0;
 }
 .skills-list li {
-  background: var(--bg); color: var(--text-secondary); padding: 8px 16px;
-  border-radius: 30px; font-size: 0.9rem; border: 1px solid var(--divider);
+  background: var(--item-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary); padding: 8px 16px;
+  border-radius: 30px; font-size: 0.9rem;
   transition: all 0.22s ease; font-weight: 500;
 }
 .skills-list li:hover {
   background: var(--primary); color: #fff; transform: scale(1.08);
-  border-color: var(--primary);
 }
 
 /* ## EXPERIENCE & EDUCATION SECTION ## */
 .exp-block { margin-bottom: 1.8em; }
-.exp-block:not(:last-child) { border-bottom: 1px solid var(--divider); padding-bottom: 1.8em; }
+.exp-block:not(:last-child) { border-bottom: 1px solid var(--border-color); padding-bottom: 1.8em; }
 .exp-header {
   display: flex; justify-content: space-between; align-items: baseline;
   margin-bottom: 0.4em; flex-wrap: wrap; row-gap: 5px;
@@ -210,19 +251,16 @@ main > section:first-of-type { margin-top: 3rem; }
   gap: 1.8rem;
 }
 .project-card {
-  background: var(--bg);
+  background: var(--item-bg);
   padding: 1.8rem;
   border-radius: 12px;
-  border: 1px solid var(--divider);
+  border: 1px solid var(--border-color);
   transition: all 0.25s ease;
 }
 .project-card:hover {
   transform: translateY(-4px) scale(1.01);
   box-shadow: 0 10px 30px rgba(0,0,0,0.08);
   border-color: var(--primary);
-}
-body[data-theme="dark"] .project-card:hover {
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }
 .project-title {
   font-family: var(--font-heading);
@@ -250,7 +288,7 @@ body[data-theme="dark"] .project-card:hover {
 .project-link:hover { opacity: 0.8; text-decoration: underline; }
 .project-link svg { width: 18px; height: 18px; }
 
-/* ## CERTIFICATIONS & EDUCATION SECTION - OPTIMIZED ## */
+/* ## CERTIFICATIONS & EDUCATION SECTION ## */
 .edu-cert-block {
     margin-top: 1.5rem;
 }
@@ -271,7 +309,8 @@ body[data-theme="dark"] .project-card:hover {
 }
 .footer-note {
   margin: 3rem 0 1rem 0; text-align: center;
-  color: var(--text-secondary); font-size: 0.9rem;
+  color: var(--text); font-size: 0.9rem;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
 /* ## UTILITIES & ANIMATIONS ## */
@@ -460,7 +499,7 @@ body[data-theme="dark"] .project-card:hover {
               <span class="exp-title">Bachelor of Computer Engineering</span>
               <span class="exp-time">2014 – 2018</span>
             </div>
-            Parul Institute of Technology, Vadodara, India
+            Parul Institute Institute of Technology, Vadodara, India
           </div>
     </div>
   </section>
@@ -473,6 +512,7 @@ body[data-theme="dark"] .project-card:hover {
 <script>
   const themeBtn = document.getElementById('themeBtn');
 
+  // Function to switch themes
   function setTheme(isDark) {
     document.body.setAttribute('data-theme', isDark ? 'dark' : 'light');
     themeBtn.setAttribute('aria-checked', !isDark);
@@ -480,14 +520,13 @@ body[data-theme="dark"] .project-card:hover {
     localStorage.setItem('site-theme', isDark ? 'dark' : 'light');
   }
 
-  function toggleTheme() {
+  // Event listener for the button
+  themeBtn.addEventListener('click', () => {
     const currentIsDark = document.body.getAttribute('data-theme') === 'dark';
     setTheme(!currentIsDark);
-  }
+  });
 
-  themeBtn.addEventListener('click', toggleTheme);
-
-  // Initialize theme based on preference or system settings
+  // Initialize theme on page load
   (function () {
     const savedTheme = localStorage.getItem('site-theme');
     const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
