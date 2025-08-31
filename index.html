@@ -7,7 +7,7 @@
 <title>Raj Patel | Windows Cloud Engineer Portfolio</title>
 <link rel="icon" type="image/png" href="logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -20,10 +20,10 @@
   --text-light: #2d3748;
   --text-secondary-light: #4a5568;
   --card-bg-light: rgba(255, 255, 255, 0.55);
-  --card-gradient-light: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%); /* NEW */
+  --card-gradient-light: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 100%);
   --item-bg-light: rgba(255, 255, 255, 0.7);
   --border-light: rgba(255, 255, 255, 0.3);
-  --body-bg-light: #f4f6fb; /* Fallback color */
+  --body-bg-light: #f4f6fb;
   
   /* Dark Theme */
   --primary-dark: #7bb6ff;
@@ -31,20 +31,19 @@
   --text-dark: #e9f1fc;
   --text-secondary-dark: #a0aec0;
   --card-bg-dark: rgba(27, 37, 55, 0.55);
-  --card-gradient-dark: linear-gradient(135deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0) 100%); /* NEW */
+  --card-gradient-dark: linear-gradient(135deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0) 100%);
   --item-bg-dark: rgba(27, 37, 55, 0.7);
   --border-dark: rgba(255, 255, 255, 0.1);
-  --body-bg-dark: #0f1724; /* Fallback color */
+  --body-bg-dark: #0f1724;
 }
 
-/* Default to light theme variables */
 :root {
   --primary: var(--primary-light);
   --accent: var(--accent-light);
   --text: var(--text-light);
   --text-secondary: var(--text-secondary-light);
   --card-bg: var(--card-bg-light);
-  --card-gradient: var(--card-gradient-light); /* NEW */
+  --card-gradient: var(--card-gradient-light);
   --item-bg: var(--item-bg-light);
   --border-color: var(--border-light);
 }
@@ -55,7 +54,7 @@ body[data-theme="dark"] {
   --text: var(--text-dark);
   --text-secondary: var(--text-secondary-dark);
   --card-bg: var(--card-bg-dark);
-  --card-gradient: var(--card-gradient-dark); /* NEW */
+  --card-gradient: var(--card-gradient-dark);
   --item-bg: var(--item-bg-dark);
   --border-color: var(--border-dark);
 }
@@ -72,9 +71,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   line-height: 1.7;
-  
-  /* ## NEW: Dynamic Background ## */
-  background-color: var(--body-bg-light); /* Fallback */
+  background-color: var(--body-bg-light);
   background-image: radial-gradient(at 8% 13%, hsla(215, 98%, 71%, 0.3) 0px, transparent 50%),
                     radial-gradient(at 94% 88%, hsla(125, 98%, 72%, 0.3) 0px, transparent 50%),
                     radial-gradient(at 44% 88%, hsla(35, 98%, 72%, 0.2) 0px, transparent 50%);
@@ -82,7 +79,7 @@ body {
 }
 
 body[data-theme="dark"] {
-  background-color: var(--body-bg-dark); /* Fallback */
+  background-color: var(--body-bg-dark);
   background-image: radial-gradient(at 8% 13%, hsla(215, 98%, 21%, 0.5) 0px, transparent 50%),
                     radial-gradient(at 94% 88%, hsla(125, 98%, 22%, 0.4) 0px, transparent 50%),
                     radial-gradient(at 44% 88%, hsla(35, 98%, 32%, 0.3) 0px, transparent 50%);
@@ -177,18 +174,14 @@ main {
   margin-top: 2.5rem;
   padding: 2.2rem 2.5rem;
   border-radius: 18px;
-  
-  /* The "Frosted Glass" effect */
   background-color: var(--card-bg);
-  background-image: var(--card-gradient); /* NEW */
+  background-image: var(--card-gradient);
   -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
   border: 1px solid var(--border-color);
-  
   box-shadow: 0 8px 32px rgba(0,0,0,0.1);
   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 }
-
 .card:hover {
   transform: translateY(-6px);
   box-shadow: 0 14px 45px rgba(0,0,0,0.15);
@@ -289,17 +282,13 @@ main > section:first-of-type { margin-top: 3rem; }
 .project-link svg { width: 18px; height: 18px; }
 
 /* ## CERTIFICATIONS & EDUCATION SECTION ## */
-.edu-cert-block {
-    margin-top: 1.5rem;
-}
-.edu-cert-block:first-child {
-    margin-top: 0;
-}
+.edu-cert-block { margin-top: 1.5rem; }
+.edu-cert-block:first-child { margin-top: 0; }
 .edu-cert-block h3 {
-    font-family: var(--font-heading);
-    font-size: 1.1rem;
-    color: var(--text);
-    margin: 0 0 1rem 0;
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  color: var(--text);
+  margin: 0 0 1rem 0;
 }
 .cert-list { display: flex; flex-wrap: wrap; gap: 12px; }
 .badge {
@@ -313,12 +302,38 @@ main > section:first-of-type { margin-top: 3rem; }
   text-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
-/* ## UTILITIES & ANIMATIONS ## */
-.fade-in {
-  opacity: 0; transform: translateY(20px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+/* ## NEW: ANIMATIONS ## */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-.fade-in.visible { opacity: 1; transform: translateY(0); }
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Page load animations */
+.anim-on-load {
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+.profile-img.anim-on-load { animation-name: scaleIn; animation-duration: 0.6s; animation-delay: 0.1s; }
+h1.anim-on-load { animation-delay: 0.2s; }
+.subtitle.anim-on-load { animation-delay: 0.3s; }
+.contact.anim-on-load { animation-delay: 0.4s; }
+
+/* Staggered animations for card content */
+.card .anim-child {
+  opacity: 0;
+}
+.card.visible .anim-child {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+.card.visible .anim-child:nth-child(1) { animation-delay: 0.1s; }
+.card.visible .anim-child:nth-child(2) { animation-delay: 0.2s; }
+.card.visible .anim-child:nth-child(3) { animation-delay: 0.3s; }
+.card.visible .anim-child:nth-child(4) { animation-delay: 0.4s; }
+.card.visible .anim-child:nth-child(5) { animation-delay: 0.5s; }
 
 /* ## RESPONSIVE DESIGN ## */
 @media (max-width: 768px) {
@@ -347,12 +362,12 @@ main > section:first-of-type { margin-top: 3rem; }
     <span class="knob"></span>
   </button>
   
-  <img src="image.png" alt="Raj Patel" class="profile-img" loading="lazy" />
-  <h1>Raj Patel</h1>
-  <div class="subtitle">
+  <img src="image.png" alt="Raj Patel" class="profile-img anim-on-load" loading="lazy" />
+  <h1 class="anim-on-load">Raj Patel</h1>
+  <div class="subtitle anim-on-load">
     Windows Cloud Engineer | Systems, Cloud & Automation
   </div>
-  <div class="contact">
+  <div class="contact anim-on-load">
     <a href="mailto:rajpatel2011998@gmail.com" title="Email">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
       Email
@@ -369,16 +384,16 @@ main > section:first-of-type { margin-top: 3rem; }
 </header>
 
 <main>
-  <section class="card fade-in">
-    <h2>About Me 👋</h2>
-    <p>
+  <section class="card">
+    <h2 class="anim-child">About Me 👋</h2>
+    <p class="anim-child">
       Highly skilled <b>Windows Cloud Engineer</b> with 3+ years of experience managing enterprise infrastructure and cloud environments. Proficient in virtualization (VMware, Hyper-V), major cloud platforms (Azure, AWS, GCP), automation (PowerShell, Python, Ansible), and modern IT operations. Renowned for boosting deployment speed, uptime, and operational efficiency through creative, robust solutions.
     </p>
   </section>
 
-  <section class="card fade-in">
-    <h2>Technical Skills 🛠️</h2>
-    <div class="skills-grid">
+  <section class="card">
+    <h2 class="anim-child">Technical Skills 🛠️</h2>
+    <div class="skills-grid anim-child">
       <div class="skills-category">
         <h3>Cloud & Virtualization</h3>
         <ul class="skills-list">
@@ -400,10 +415,10 @@ main > section:first-of-type { margin-top: 3rem; }
     </div>
   </section>
 
-  <section class="card fade-in">
-    <h2>Projects 📂</h2>
+  <section class="card">
+    <h2 class="anim-child">Projects 📂</h2>
     <div class="projects-grid">
-      <div class="project-card">
+      <div class="project-card anim-child">
         <h3 class="project-title">Shell Scripts for Automation</h3>
         <p>A collection of shell scripts designed to automate various system administration, deployment, and monitoring tasks on Linux systems.</p>
         <ul class="project-tags">
@@ -414,7 +429,7 @@ main > section:first-of-type { margin-top: 3rem; }
           View on GitHub
         </a>
       </div>
-      <div class="project-card">
+      <div class="project-card anim-child">
         <h3 class="project-title">Ansible Playbooks</h3>
         <p>A repository of Ansible playbooks for configuration management, application deployment, and infrastructure orchestration across diverse environments.</p>
         <ul class="project-tags">
@@ -428,9 +443,9 @@ main > section:first-of-type { margin-top: 3rem; }
     </div>
   </section>
 
-  <section class="card fade-in">
-    <h2>Professional Experience 💼</h2>
-    <div class="exp-block">
+  <section class="card">
+    <h2 class="anim-child">Professional Experience 💼</h2>
+    <div class="exp-block anim-child">
       <div class="exp-header">
         <span class="exp-title">Windows Cloud Engineer @ Accenture</span>
         <span class="exp-time">Apr 2025 – Present</span>
@@ -441,7 +456,7 @@ main > section:first-of-type { margin-top: 3rem; }
         <li>Orchestrating cloud migrations, automation, and security hardening projects.</li>
       </ul>
     </div>
-    <div class="exp-block">
+    <div class="exp-block anim-child">
       <div class="exp-header">
         <span class="exp-title">IT Systems Administrator @ Motio Business Technology</span>
         <span class="exp-time">Oct 2023 – Jul 2024</span>
@@ -452,7 +467,7 @@ main > section:first-of-type { margin-top: 3rem; }
         <li>Automated patching, deployments, and backups to ensure 99.9%+ uptime.</li>
       </ul>
     </div>
-    <div class="exp-block">
+    <div class="exp-block anim-child">
       <div class="exp-header">
         <span class="exp-title">System Administrator @ Integrated Bioscience</span>
         <span class="exp-time">Oct 2022 – Oct 2023</span>
@@ -463,7 +478,7 @@ main > section:first-of-type { margin-top: 3rem; }
         <li>Centralized auth with LDAP/Azure AD and improved compliance.</li>
       </ul>
     </div>
-    <div class="exp-block">
+    <div class="exp-block anim-child">
       <div class="exp-header">
         <span class="exp-title">Jr. System Administrator @ Integrated Bioscience</span>
         <span class="exp-time">Oct 2021 – Oct 2022</span>
@@ -476,16 +491,16 @@ main > section:first-of-type { margin-top: 3rem; }
     </div>
   </section>
 
-  <section class="card fade-in">
-    <h2>Education & Certifications 🎓</h2>
-    <div class="edu-cert-block">
+  <section class="card">
+    <h2 class="anim-child">Education & Certifications 🎓</h2>
+    <div class="edu-cert-block anim-child">
       <h3>Certifications</h3>
       <div class="cert-list">
         <span class="badge">In Progress: Certified Kubernetes Administrator (CKA)</span>
         <span class="badge">In Progress: Azure Administrator Associate (AZ-104)</span>
       </div>
     </div>
-    <div class="edu-cert-block">
+    <div class="edu-cert-block anim-child">
         <h3>Education</h3>
         <div class="exp-block">
             <div class="exp-header">
@@ -499,7 +514,7 @@ main > section:first-of-type { margin-top: 3rem; }
               <span class="exp-title">Bachelor of Computer Engineering</span>
               <span class="exp-time">2014 – 2018</span>
             </div>
-            Parul Institute Institute of Technology, Vadodara, India
+            Parul Institute of Technology, Vadodara, India
           </div>
     </div>
   </section>
@@ -539,7 +554,7 @@ main > section:first-of-type { margin-top: 3rem; }
     }
   })();
 
-  // Fade-in animation for sections on scroll
+  // NEW: Staggered animation for sections on scroll
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -549,7 +564,8 @@ main > section:first-of-type { margin-top: 3rem; }
     });
   }, { threshold: 0.1 });
 
-  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  // Observe all cards for the reveal animation
+  document.querySelectorAll('.card').forEach(el => observer.observe(el));
 </script>
 </body>
 </html>
