@@ -16,14 +16,16 @@
   --primary: #1976d2;
   --accent: #fbbc05;
   --bg: #f4f6fb;
-  --card: #fff;
-  --text: #333;
+  --card: #ffffff;
+  --text: #333333;
+  --text-secondary: #555e68;
   --divider: #e2e5ea;
   --primary-dark: #7bb6ff;
   --accent-dark: #fbc964;
   --bg-dark: #0f1724;
   --card-dark: #1b2537;
   --text-dark: #e9f1fc;
+  --text-secondary-dark: #a0aec0;
   --divider-dark: #203147;
 }
 
@@ -33,11 +35,12 @@ body[data-theme="dark"] {
   --bg: var(--bg-dark);
   --card: var(--card-dark);
   --text: var(--text-dark);
+  --text-secondary: var(--text-secondary-dark);
   --divider: var(--divider-dark);
 }
 
 * { box-sizing: border-box; }
-html, body { height: 100%; }
+html { scroll-behavior: smooth; }
 body {
   margin: 0;
   min-height: 100vh;
@@ -45,16 +48,16 @@ body {
   background: var(--bg);
   color: var(--text);
   transition: background 0.45s ease, color 0.35s ease;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  line-height: 1.6;
+  line-height: 1.7;
 }
 
-/* Header with Animated Gradient */
+/* ## HEADER & HERO SECTION ## */
 header {
   position: relative;
-  padding: 2.6rem 1.2rem 2.4rem 1.2rem;
+  padding: 3rem 1.5rem;
   color: #fff;
   text-align: center;
   box-shadow: 0 6px 40px rgba(25, 120, 210, 0.12);
@@ -70,11 +73,10 @@ header {
   100%{background-position:0% 50%}
 }
 
-/* Theme Toggle */
 .theme-toggle {
   position: absolute;
-  top: 18px;
-  right: 18px;
+  top: 20px;
+  right: 20px;
   width: 72px;
   height: 36px;
   background: rgba(255,255,255,0.12);
@@ -91,7 +93,6 @@ header {
 }
 .theme-toggle:hover { transform: translateY(-2px); }
 .theme-toggle:focus-visible { outline: 2px solid rgba(255,255,255,0.3); }
-
 .theme-toggle .icon {
   width: 24px; height: 24px; display:flex; align-items:center; justify-content:center;
   color: rgba(255,255,255,0.95); font-size: 14px; user-select: none; pointer-events: none;
@@ -108,149 +109,292 @@ header {
 .theme-toggle:not(.light) .moon { transform: scale(1.06); }
 
 .profile-img {
-  width: 110px; height: 110px; border-radius: 50%; margin: 0 auto 1rem;
-  border: 4px solid rgba(255,255,255,0.12); object-fit: cover;
-  box-shadow: 0 6px 28px rgba(20,40,80,0.18);
+  width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 1.2rem;
+  border: 4px solid rgba(255,255,255,0.15); object-fit: cover;
+  box-shadow: 0 8px 32px rgba(10, 25, 60, 0.2);
 }
 
-h1, h2 { font-family: var(--font-heading); }
-h1 { font-size: 2rem; margin: 0.2em 0 0 0; letter-spacing: -0.5px; font-weight: 700; }
-h2 { color: var(--primary); font-size: 1.5rem; font-weight: 600; }
-.subtitle { font-size: 1.1rem; margin-bottom: 1.5em; opacity: 0.95; }
+h1, h2 { font-family: var(--font-heading); letter-spacing: -0.5px; }
+h1 { font-size: 2.5rem; margin: 0.2em 0 0.1em 0; font-weight: 700; }
+h2 { color: var(--primary); font-size: 1.8rem; font-weight: 600; margin-bottom: 1.5rem; }
+.subtitle { font-size: 1.15rem; margin-bottom: 1.8rem; opacity: 0.95; font-weight: 400; }
 
 .contact {
-  margin: 1.2rem 0 0 0; display: flex; justify-content: center;
-  gap: 0.8rem; flex-wrap: wrap; align-items: center;
+  margin: 1.5rem 0 0 0; display: flex; justify-content: center;
+  gap: 1rem; flex-wrap: wrap; align-items: center;
 }
 .contact a {
-  color: #fff; font-size: 0.95rem; background: rgba(20, 20, 20, 0.12);
-  padding: 0.5em 1.1em; border-radius: 40px; text-decoration: none;
-  transition: 0.22s; font-weight: 500; box-shadow: 0px 2px 8px rgba(0,0,0,0.16);
-  display: inline-flex; align-items: center; gap: 0.5em;
+  color: #fff; font-size: 0.95rem; background: rgba(20, 20, 20, 0.15);
+  padding: 0.6em 1.2em; border-radius: 40px; text-decoration: none;
+  transition: all 0.25s ease; font-weight: 500;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.15);
+  display: inline-flex; align-items: center; gap: 0.6em;
 }
-.contact a:hover { background: #fff; color: var(--primary); transform: translateY(-2px) scale(1.05); }
+.contact a:hover {
+  background: #fff; color: var(--primary); transform: translateY(-3px) scale(1.05);
+  box-shadow: 0px 6px 15px rgba(0,0,0,0.2);
+}
+.contact a svg { width: 18px; height: 18px; }
 
-/* Main layout */
+/* ## MAIN LAYOUT & CARDS ## */
 main {
-  max-width: 820px; margin: 0 auto; padding: 0 1rem 2.3rem 1rem;
+  max-width: 900px; margin: 0 auto; padding: 0 1rem 3rem 1rem;
 }
-
-main > section:first-of-type {
-  margin-top: 2.5rem;  
-}
-
 .card {
-  background: var(--card); border-radius: 17px; margin-top: 2.2rem; padding: 2.1rem 2rem;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.07);
-  transition: background 0.3s, box-shadow 0.3s, transform 0.3s cubic-bezier(.25,.8,.25,1);
+  background: var(--card); border-radius: 18px; margin-top: 2.5rem;
+  padding: 2.2rem 2.5rem;
+  border: 1px solid var(--divider);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 }
+body[data-theme="dark"] .card { border-color: transparent; }
+
 .card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+  box-shadow: 0 14px 45px rgba(0,0,0,0.1);
 }
+main > section:first-of-type { margin-top: 3rem; }
 
+/* ## SKILLS SECTION ## */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+.skills-category h3 {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  color: var(--primary);
+  margin-top: 0;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--divider);
+  padding-bottom: 0.5rem;
+}
 .skills-list {
   display: flex; flex-wrap: wrap; gap: 10px; padding-left: 0;
-  list-style: none; margin: 0.3em 0 0 0;
+  list-style: none; margin: 0;
 }
 .skills-list li {
-  background: var(--bg); color: var(--primary); padding: 7px 14px;
-  border-radius: 30px; font-size: 0.9rem; border: 1.2px solid transparent;
-  transition: 0.22s; font-weight: 500;
+  background: var(--bg); color: var(--text-secondary); padding: 8px 16px;
+  border-radius: 30px; font-size: 0.9rem; border: 1px solid var(--divider);
+  transition: all 0.22s ease; font-weight: 500;
 }
 .skills-list li:hover {
-  background: var(--primary); color: #fff; transform: scale(1.06);
+  background: var(--primary); color: #fff; transform: scale(1.08);
+  border-color: var(--primary);
 }
 
-.exp-block { margin-bottom: 1.6em; }
-.exp-block:not(:last-child) { border-bottom: 1px solid var(--divider); padding-bottom: 1.6em; }
+/* ## EXPERIENCE & EDUCATION SECTION ## */
+.exp-block { margin-bottom: 1.8em; }
+.exp-block:not(:last-child) { border-bottom: 1px solid var(--divider); padding-bottom: 1.8em; }
 .exp-header {
-  font-weight: 700; color: var(--primary); font-size: 1.07rem; display: flex;
-  justify-content: space-between; margin-bottom: 0.2em; flex-wrap: wrap; row-gap: 3px;
-  font-family: var(--font-heading);
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 0.4em; flex-wrap: wrap; row-gap: 5px;
 }
-.exp-title { font-weight: 600; color: var(--text); }
-.exp-time { font-weight: 400; color: #7a7a8f; font-size: 0.96em; font-family: var(--font-body); }
-.env { font-size: 0.9rem; color: #889; margin-bottom: 0.8em; }
-.exp-block ul { padding-left: 20px; }
+.exp-title {
+  font-family: var(--font-heading);
+  font-weight: 600; font-size: 1.2rem; color: var(--text);
+}
+.exp-time {
+  font-weight: 500; color: var(--text-secondary); font-size: 0.9rem;
+  font-family: var(--font-body); white-space: nowrap;
+}
+.env { font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 1rem; font-style: italic; }
+.exp-block ul { padding-left: 20px; color: var(--text-secondary); margin: 0; }
+.exp-block ul li { margin-bottom: 0.5rem; }
 
-/* ## NEW: Project link style ## */
+/* ## PROJECTS SECTION ## */
+.projects-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.8rem;
+}
+.project-card {
+  background: var(--bg);
+  padding: 1.8rem;
+  border-radius: 12px;
+  border: 1px solid var(--divider);
+  transition: all 0.25s ease;
+}
+.project-card:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  border-color: var(--primary);
+}
+body[data-theme="dark"] .project-card:hover {
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+.project-title {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+}
+.project-card p {
+  margin: 0 0 1.2rem 0;
+  color: var(--text-secondary);
+}
+.project-tags {
+  display: flex; flex-wrap: wrap; gap: 8px; list-style: none;
+  padding: 0; margin: 0 0 1.2rem 0;
+}
+.project-tags li {
+  background-color: var(--primary); color: #fff; font-size: 0.8rem;
+  padding: 4px 12px; border-radius: 20px; font-weight: 500;
+}
 .project-link {
-  display: inline-block; margin-top: 0.5rem; font-weight: 500; color: var(--primary);
-  text-decoration: none; transition: opacity 0.2s;
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-weight: 500; color: var(--primary); text-decoration: none;
+  transition: opacity 0.2s;
 }
 .project-link:hover { opacity: 0.8; text-decoration: underline; }
+.project-link svg { width: 18px; height: 18px; }
 
+/* ## CERTIFICATIONS & EDUCATION SECTION - OPTIMIZED ## */
+.edu-cert-block {
+    margin-top: 1.5rem;
+}
+.edu-cert-block:first-child {
+    margin-top: 0;
+}
+.edu-cert-block h3 {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    color: var(--text);
+    margin: 0 0 1rem 0;
+}
 .cert-list { display: flex; flex-wrap: wrap; gap: 12px; }
 .badge {
-  background: var(--accent); color: #111; padding: 0.3em 0.8em;
+  background: var(--accent); color: #111; padding: 0.4em 1em;
   border-radius: 1em; font-size: 0.9em; font-weight: 500;
+  display: inline-flex; align-items: center; gap: 0.5rem;
 }
-
 .footer-note {
-  margin: 2.6em 0 0.9em 0; text-align: center;
-  color: #aaa; font-size: 0.9rem; letter-spacing: 0.01em;
+  margin: 3rem 0 1rem 0; text-align: center;
+  color: var(--text-secondary); font-size: 0.9rem;
 }
 
-/* Fade-in animation */
-.fade-in { opacity: 0; transform: translateY(18px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+/* ## UTILITIES & ANIMATIONS ## */
+.fade-in {
+  opacity: 0; transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
 .fade-in.visible { opacity: 1; transform: translateY(0); }
 
-/* Responsive tweaks */
-@media (max-width: 700px) {
-  main { padding: 0 0.5rem 1.6rem 0.5rem; }
-  .card { padding: 1.5rem; margin-left: 2vw; margin-right: 2vw; }
+/* ## RESPONSIVE DESIGN ## */
+@media (max-width: 768px) {
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.5rem; }
+  main { padding: 0 0.8rem 2rem 0.8rem; }
+  .card { padding: 1.8rem 1.5rem; }
+  .exp-header { flex-direction: column; align-items: flex-start; }
+  .exp-time { margin-top: 0.2rem; }
+}
+@media (max-width: 480px) {
   .theme-toggle { top: 12px; right: 12px; width: 64px; height: 32px; }
   .theme-toggle .knob { width: 26px; height: 26px; top: 3px; left: 3px; }
   .theme-toggle.light .knob { left: calc(100% - 29px); }
+  .contact { gap: 0.6rem; }
+  .contact a { padding: 0.5em 1em; }
 }
 </style>
 </head>
 <body data-theme="dark">
+
 <header>
   <button id="themeBtn" class="theme-toggle" role="switch" aria-checked="false" aria-label="Toggle light/dark mode">
-    <span class="icon sun" aria-hidden="true">☀</span>
+    <span class="icon sun" aria-hidden="true">☀️</span>
     <span class="icon moon" aria-hidden="true">🌙</span>
     <span class="knob"></span>
   </button>
-
+  
   <img src="image.png" alt="Raj Patel" class="profile-img" loading="lazy" />
   <h1>Raj Patel</h1>
   <div class="subtitle">
     Windows Cloud Engineer | Systems, Cloud & Automation
   </div>
   <div class="contact">
-    <a href="mailto:rajpatel2011998@gmail.com" title="Email">📧 Email</a>
-    <a href="https://www.linkedin.com/in/iamraj-patel/" target="_blank" rel="noopener" title="LinkedIn">💼 LinkedIn</a>
-    <a href="https://github.com/iamraj-patel" target="_blank" rel="noopener" title="GitHub">💻 GitHub</a>
+    <a href="mailto:rajpatel2011998@gmail.com" title="Email">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+      Email
+    </a>
+    <a href="https://www.linkedin.com/in/iamraj-patel/" target="_blank" rel="noopener" title="LinkedIn">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14zm-12 5v9h3v-4.5c0-1.2.6-2 1.5-2s1.5.8 1.5 2V17h3v-9h-3v1.5c-.5-1-1.5-1.5-2.5-1.5C6.5 8 5 9.2 5 11.5zM6.5 5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/></svg>
+      LinkedIn
+    </a>
+    <a href="https://github.com/iamraj-patel" target="_blank" rel="noopener" title="GitHub">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.09.68-.22.68-.48 0-.24-.01-1.02-.01-1.85-2.78.6-3.37-1.18-3.37-1.18-.45-1.15-1.11-1.46-1.11-1.46-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.36 1.09 2.94.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.1.39-1.99 1.03-2.69-.1-.25-.45-1.28.1-2.65 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.4.1 2.65.64.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85 0 1.34-.01 2.42-.01 2.75 0 .27.18.58.69.48C19.13 20.17 22 16.42 22 12c0-5.52-4.48-10-10-10z"/></svg>
+      GitHub
+    </a>
   </div>
 </header>
 
 <main>
   <section class="card fade-in">
-    <h2>About Me</h2>
+    <h2>About Me 👋</h2>
     <p>
       Highly skilled <b>Windows Cloud Engineer</b> with 3+ years of experience managing enterprise infrastructure and cloud environments. Proficient in virtualization (VMware, Hyper-V), major cloud platforms (Azure, AWS, GCP), automation (PowerShell, Python, Ansible), and modern IT operations. Renowned for boosting deployment speed, uptime, and operational efficiency through creative, robust solutions.
     </p>
   </section>
 
   <section class="card fade-in">
-    <h2>Technical Skills</h2>
-    <ul class="skills-list">
-      <li>Windows Servers & Desktops</li><li>Linux (Debian, RHEL)</li><li>VMware ESXi / Hyper-V</li>
-      <li>Azure / AWS / GCP</li><li>PowerShell / Python / Ansible</li><li>Active Directory / Azure AD</li>
-      <li>Docker / Kubernetes</li><li>Patch Management</li><li>P2V/ V2V Migration</li>
-      <li>Backup: Veeam / Datto</li><li>Networking & Security</li><li>MDT / WDS</li>
-      <li>Office 365 / Exchange</li><li>Apache / Nginx</li>
-    </ul>
+    <h2>Technical Skills 🛠️</h2>
+    <div class="skills-grid">
+      <div class="skills-category">
+        <h3>Cloud & Virtualization</h3>
+        <ul class="skills-list">
+          <li>Azure</li><li>AWS</li><li>GCP</li><li>VMware ESXi</li><li>Hyper-V</li><li>Docker</li><li>Kubernetes</li><li>P2V/V2V Migration</li>
+        </ul>
+      </div>
+      <div class="skills-category">
+        <h3>Automation & Scripting</h3>
+        <ul class="skills-list">
+          <li>PowerShell</li><li>Python</li><li>Ansible</li><li>Shell Scripting</li><li>MDT / WDS</li>
+        </ul>
+      </div>
+      <div class="skills-category">
+        <h3>OS & Core Services</h3>
+        <ul class="skills-list">
+          <li>Windows Server</li><li>Linux (RHEL/Debian)</li><li>Active Directory</li><li>Azure AD</li><li>Office 365 / Exchange</li><li>Patch Management</li><li>Networking & Security</li>
+        </ul>
+      </div>
+    </div>
   </section>
 
   <section class="card fade-in">
-    <h2>Professional Experience</h2>
+    <h2>Projects 📂</h2>
+    <div class="projects-grid">
+      <div class="project-card">
+        <h3 class="project-title">Shell Scripts for Automation</h3>
+        <p>A collection of shell scripts designed to automate various system administration, deployment, and monitoring tasks on Linux systems.</p>
+        <ul class="project-tags">
+          <li>Bash</li><li>Automation</li><li>Linux</li><li>Monitoring</li>
+        </ul>
+        <a href="https://github.com/iamraj-patel/shell-script" target="_blank" rel="noopener" class="project-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.09.68-.22.68-.48 0-.24-.01-1.02-.01-1.85-2.78.6-3.37-1.18-3.37-1.18-.45-1.15-1.11-1.46-1.11-1.46-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.36 1.09 2.94.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.1.39-1.99 1.03-2.69-.1-.25-.45-1.28.1-2.65 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.4.1 2.65.64.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85 0 1.34-.01 2.42-.01 2.75 0 .27.18.58.69.48C19.13 20.17 22 16.42 22 12c0-5.52-4.48-10-10-10z"/></svg>
+          View on GitHub
+        </a>
+      </div>
+      <div class="project-card">
+        <h3 class="project-title">Ansible Playbooks</h3>
+        <p>A repository of Ansible playbooks for configuration management, application deployment, and infrastructure orchestration across diverse environments.</p>
+        <ul class="project-tags">
+          <li>Ansible</li><li>YAML</li><li>IaC</li><li>Automation</li>
+        </ul>
+        <a href="https://github.com/iamraj-patel/Ansible-Main" target="_blank" rel="noopener" class="project-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.09.68-.22.68-.48 0-.24-.01-1.02-.01-1.85-2.78.6-3.37-1.18-3.37-1.18-.45-1.15-1.11-1.46-1.11-1.46-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.36 1.09 2.94.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.1.39-1.99 1.03-2.69-.1-.25-.45-1.28.1-2.65 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.4.1 2.65.64.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85 0 1.34-.01 2.42-.01 2.75 0 .27.18.58.69.48C19.13 20.17 22 16.42 22 12c0-5.52-4.48-10-10-10z"/></svg>
+          View on GitHub
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="card fade-in">
+    <h2>Professional Experience 💼</h2>
     <div class="exp-block">
       <div class="exp-header">
-        <span class="exp-title">Windows Cloud Engineer</span>
-        <span class="exp-time">Accenture | Apr 2025 – Present</span>
+        <span class="exp-title">Windows Cloud Engineer @ Accenture</span>
+        <span class="exp-time">Apr 2025 – Present</span>
       </div>
       <div class="env">Cloud, Automation, Windows Server, Azure, AWS</div>
       <ul>
@@ -260,8 +404,8 @@ main > section:first-of-type {
     </div>
     <div class="exp-block">
       <div class="exp-header">
-        <span class="exp-title">IT Systems Administrator</span>
-        <span class="exp-time">Motio Business Technology | Oct 2023 – Jul 2024</span>
+        <span class="exp-title">IT Systems Administrator @ Motio Business Technology</span>
+        <span class="exp-time">Oct 2023 – Jul 2024</span>
       </div>
       <div class="env">Windows 2022/2019, ESXi, MDT, WDS, PowerShell, Veeam, Ansible</div>
       <ul>
@@ -271,8 +415,8 @@ main > section:first-of-type {
     </div>
     <div class="exp-block">
       <div class="exp-header">
-        <span class="exp-title">System Administrator</span>
-        <span class="exp-time">Integrated Bioscience | Oct 2022 – Oct 2023</span>
+        <span class="exp-title">System Administrator @ Integrated Bioscience</span>
+        <span class="exp-time">Oct 2022 – Oct 2023</span>
       </div>
       <div class="env">Windows/Linux Servers, Hyper-V, Sophos, Azure AD, Veeam</div>
       <ul>
@@ -282,8 +426,8 @@ main > section:first-of-type {
     </div>
     <div class="exp-block">
       <div class="exp-header">
-        <span class="exp-title"> Jr. System Administrator</span>
-        <span class="exp-time">Integrated Bioscience | Oct 2021 – Oct 2022</span>
+        <span class="exp-title">Jr. System Administrator @ Integrated Bioscience</span>
+        <span class="exp-time">Oct 2021 – Oct 2022</span>
       </div>
       <div class="env">Windows Servers, Hyper-V, Azure AD, WSUS, GPO</div>
       <ul>
@@ -292,41 +436,32 @@ main > section:first-of-type {
       </ul>
     </div>
   </section>
-  <section class="card fade-in">
-    <h2>Projects</h2>
-    <div class="exp-block">
-      <div class="exp-header">
-        <span class="exp-title">Shell Scripts for Automation</span>
-      </div>
-      <p>A collection of shell scripts designed to automate various system administration, deployment, and monitoring tasks.</p>
-      <a href="https://github.com/iamraj-patel/shell-script" target="_blank" rel="noopener" class="project-link">🔗 View on GitHub</a>
-    </div>
-    <div class="exp-block">
-      <div class="exp-header">
-        <span class="exp-title">Ansible Playbooks</span>
-      </div>
-      <p>A repository of Ansible playbooks for configuration management, application deployment, and infrastructure orchestration.</p>
-      <a href="https://github.com/iamraj-patel/Ansible-Main" target="_blank" rel="noopener" class="project-link">🔗 View on GitHub</a>
-    </div>
-  </section>
 
   <section class="card fade-in">
-    <h2>Certifications</h2>
-    <div class="cert-list">
-      <span class="badge">In Progress: Certified Kubernetes Administrator (CKA)</span>
-      <span class="badge">In Progress: Azure Administrator Associate (AZ-104)</span>
+    <h2>Education & Certifications 🎓</h2>
+    <div class="edu-cert-block">
+      <h3>Certifications</h3>
+      <div class="cert-list">
+        <span class="badge">In Progress: Certified Kubernetes Administrator (CKA)</span>
+        <span class="badge">In Progress: Azure Administrator Associate (AZ-104)</span>
+      </div>
     </div>
-  </section>
-
-  <section class="card fade-in">
-    <h2>Education</h2>
-    <div class="edu">
-      <b>Master of Computer Science</b><br>
-      West Virginia State University, WV, USA (2019 – 2021)
-    </div>
-    <div class="edu">
-      <b>Bachelor of Computer Engineering</b><br>
-      Parul Institute of Technology, Vadodara, India (2014 – 2018)
+    <div class="edu-cert-block">
+        <h3>Education</h3>
+        <div class="exp-block">
+            <div class="exp-header">
+              <span class="exp-title">Master of Computer Science</span>
+              <span class="exp-time">2019 – 2021</span>
+            </div>
+            West Virginia State University, WV, USA
+          </div>
+          <div class="exp-block">
+            <div class="exp-header">
+              <span class="exp-title">Bachelor of Computer Engineering</span>
+              <span class="exp-time">2014 – 2018</span>
+            </div>
+            Parul Institute of Technology, Vadodara, India
+          </div>
     </div>
   </section>
 
