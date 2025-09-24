@@ -76,17 +76,21 @@
       line-height: 1.7;
       background-color: #0b1020;
       opacity: 0; /* hidden until init */
+      min-height: 100%;
     }
     body.ready { opacity: 1; }
 
-    /* 3D Background Canvas */
+    /* 3D Background Canvas fixed using small viewport units to prevent mobile bounce */
     #bg-canvas {
       position: fixed;
       inset: 0;
       width: 100vw;
-      height: 100vh;
+      height: 100svh; /* stable viewport height on mobile */
       z-index: -2;
       display: block;
+      transform: translateZ(0); /* promote to its own layer */
+      will-change: transform;
+      touch-action: none; /* avoid accidental scroll-zoom on canvas */
     }
 
     /* Asteroid Layer (CSS-based foreground streaks) */
@@ -94,7 +98,7 @@
       position: fixed;
       inset: 0;
       width: 100%;
-      height: 100%;
+      height: 100svh;
       overflow: hidden;
       z-index: -1;
       pointer-events: none;
@@ -108,8 +112,14 @@
       will-change: transform, opacity;
     }
     @keyframes travel-asteroid {
-      0% { transform: translateX(-10vw) translateY(var(--start-y)) rotate(35deg) scale(var(--scale)); opacity: 0.95; }
-      100% { transform: translateX(110vw) translateY(var(--end-y)) rotate(35deg) scale(var(--scale)); opacity: 0.95; }
+      0% {
+        transform: translateX(-10vw) translateY(var(--start-y)) rotate(35deg) scale(var(--scale));
+        opacity: 0.95;
+      }
+      100% {
+        transform: translateX(110vw) translateY(var(--end-y)) rotate(35deg) scale(var(--scale));
+        opacity: 0.95;
+      }
     }
 
     /* Header & Hero */
@@ -287,11 +297,23 @@
     .card.visible .anim-child:nth-child(4) { animation-delay: 0.4s; }
     .card.visible .anim-child:nth-child(5) { animation-delay: 0.5s; }
 
+    /* Motion accessibility */
+    @media (prefers-reduced-motion: reduce) {
+      .anim-on-load, .card.visible .anim-child {
+        animation: none !important;
+        opacity: 1 !important;
+      }
+      .asteroid { animation-duration: 40s !important; }
+    }
+
     /* Responsive */
+    @media (max-width: 1024px) {
+      main { max-width: 820px; }
+    }
     @media (max-width: 768px) {
       h1 { font-size: 2rem; }
       h2 { font-size: 1.5rem; }
-      main { padding: 0 0.8rem 2rem 0.8rem; }
+      main { padding: 0 0.8rem 2rem 0.8rem; max-width: 680px; }
       .card { padding: 1.8rem 1.5rem; }
       .exp-header { flex-direction: column; align-items: flex-start; }
       .exp-time { margin-top: 0.2rem; }
@@ -307,7 +329,7 @@
 </head>
 <body data-theme="dark">
   <!-- 3D Galaxy Canvas and Asteroids -->
-  <canvas id="bg-canvas"></canvas>
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
   <div class="asteroid-container" aria-hidden="true"></div>
 
   <!-- Portfolio Content -->
@@ -517,14 +539,16 @@
     camera.position.set(0, 10, 30);
     scene.add(camera);
 
-    // Controls
+    // Controls (mobile-friendly: single finger scrolls page, two fingers to rotate/zoom)
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.06;
     controls.rotateSpeed = 0.5;
     controls.zoomSpeed = 0.6;
+    controls.enablePan = false;
     controls.minDistance = 12;
     controls.maxDistance = 220;
+    controls.touches = { ONE: THREE.TOUCH.NONE, TWO: THREE.TOUCH.DOLLY_ROTATE };
 
     // Starfield
     function createStarLayer(count, size, color, opacity) {
@@ -610,7 +634,7 @@
     const painters = {
       mercury: (ctx, s) => {
         ctx.fillStyle = '#9c9c9c'; ctx.fillRect(0, 0, s, s);
-        for (let i=0;i<120;i++){ // craters
+        for (let i=0;i<120;i++){
           const r = Math.random()*12+4, x = Math.random()*s, y = Math.random()*s;
           const g = ctx.createRadialGradient(x,y, r*0.2, x,y, r);
           g.addColorStop(0, 'rgba(60,60,60,0.4)');
@@ -626,10 +650,8 @@
         noise2D(ctx, s, 18);
       },
       earth: (ctx, s) => {
-        // ocean
-        ctx.fillStyle = '#3b74b4'; ctx.fillRect(0,0,s,s);
-        // continents (rough patches)
-        for (let i=0;i<20;i++){
+        ctx.fillStyle = '#3b74b4'; ctx.fillRect(0,0,s,s); // ocean
+        for (let i=0;i<20;i++){ // continents
           ctx.fillStyle = ['#2e8b57','#3a9d6b','#267a4d'][Math.floor(Math.random()*3)];
           const w = Math.random()*200+120, h = Math.random()*140+80;
           ctx.globalAlpha = 0.8;
@@ -674,14 +696,11 @@
         noise2D(ctx, s, 12);
       },
       jupiter: (ctx, s) => {
-        const bands = [
-          '#c9b28f','#bfa381','#d6c1a3','#a88c6b','#d9c7aa','#b69775','#e2d2bd','#a48766'
-        ];
+        const bands = ['#c9b28f','#bfa381','#d6c1a3','#a88c6b','#d9c7aa','#b69775','#e2d2bd','#a48766'];
         const bandH = s / bands.length;
         for (let i=0;i<bands.length;i++){
           ctx.fillStyle = bands[i];
           ctx.fillRect(0, i*bandH, s, bandH);
-          // slight horizontal variation
           for (let x=0;x<s;x+=4){
             ctx.fillStyle = `rgba(0,0,0,${Math.random()*0.04})`;
             ctx.fillRect(x, i*bandH, 4, bandH*(0.95+Math.random()*0.1));
@@ -713,7 +732,6 @@
       pluto: (ctx, s) => {
         ctx.fillStyle = '#d1c0aa'; ctx.fillRect(0,0,s,s); noise2D(ctx, s, 12);
       },
-      // Moons
       io: (ctx, s) => { ctx.fillStyle='#e4d08a'; ctx.fillRect(0,0,s,s); noise2D(ctx,s,10); },
       europa: (ctx, s) => { ctx.fillStyle='#ddd5c8'; ctx.fillRect(0,0,s,s); noise2D(ctx,s,10); },
       ganymede: (ctx, s) => { ctx.fillStyle='#b8afa7'; ctx.fillRect(0,0,s,s); noise2D(ctx,s,10); },
@@ -842,42 +860,71 @@
 
     // Animation loop
     const clock = new THREE.Clock();
+    let isHidden = false;
     function animate() {
       const t = clock.getElapsedTime();
-      sunMaterial.uniforms.time.value = t;
+      if (!isHidden) {
+        sunMaterial.uniforms.time.value = t;
 
-      stars.rotation.y += 0.00004;
-      stars.rotation.x += 0.00001;
-      faintStars.rotation.y += 0.00006;
+        stars.rotation.y += 0.00004;
+        stars.rotation.x += 0.00001;
+        faintStars.rotation.y += 0.00006;
 
-      celestialBodies.forEach(p => {
-        // Elliptical orbit
-        p.pivot.userData.angle += p.pivot.userData.speed;
-        const a = p.pivot.userData.angle;
-        const rx = p.pivot.userData.radiusX;
-        const rz = p.pivot.userData.radiusZ;
-        p.mesh.position.set(Math.cos(a) * rx, 0, Math.sin(a) * rz);
+        celestialBodies.forEach(p => {
+          // Elliptical orbit
+          p.pivot.userData.angle += p.pivot.userData.speed;
+          const a = p.pivot.userData.angle;
+          const rx = p.pivot.userData.radiusX;
+          const rz = p.pivot.userData.radiusZ;
+          p.mesh.position.set(Math.cos(a) * rx, 0, Math.sin(a) * rz);
 
-        // Rotation
-        p.mesh.rotation.y += p.rotationSpeed;
+          // Rotation
+          p.mesh.rotation.y += p.rotationSpeed;
 
-        // Moons
-        p.moons.forEach(m => { m.pivot.rotation.y += m.speed; });
-      });
+          // Moons
+          p.moons.forEach(m => { m.pivot.rotation.y += m.speed; });
+        });
 
-      controls.update();
-      renderer.render(scene, camera);
+        controls.update();
+        renderer.render(scene, camera);
+      }
       requestAnimationFrame(animate);
     }
     animate();
 
-    // Resize
-    window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    // Pause updates when tab hidden (battery-friendly)
+    document.addEventListener('visibilitychange', () => {
+      isHidden = document.hidden;
     });
+
+    // Stable resize on mobile using visualViewport and debounce
+    let lastW = window.innerWidth, lastH = window.innerHeight;
+    let resizeTimer = null;
+    function doResize(width, height) {
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(width, height);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    }
+    function scheduleResize(width, height) {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        if (width !== lastW || height !== lastH) {
+          lastW = width; lastH = height;
+          doResize(width, height);
+        }
+      }, 120);
+    }
+    if (window.visualViewport) {
+      const vv = window.visualViewport;
+      const handleVV = () => scheduleResize(Math.ceil(vv.width), Math.ceil(vv.height));
+      vv.addEventListener('resize', handleVV, { passive: true });
+      vv.addEventListener('scroll', handleVV, { passive: true }); // keeps canvas pinned when bars show/hide
+      // Initial sync with small viewport units
+      scheduleResize(Math.ceil(vv.width), Math.ceil(vv.height));
+    } else {
+      window.addEventListener('resize', () => scheduleResize(window.innerWidth, window.innerHeight), { passive: true });
+    }
 
     // Asteroids
     const asteroidContainer = document.querySelector('.asteroid-container');
