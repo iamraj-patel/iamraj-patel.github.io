@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Dossier: Raj Patel | Windows Cloud Engineer</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo:wght@700;900&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <style>
+        :root {
+            --arc-reactor-blue: #00A9E0;
+            --iron-man-red: #ED1D24;
+            --stark-dark: #02040a;
+            --stark-light: #F0F8FF;
+            --stark-grey: #a0aec0;
+            --hud-glow: rgba(0, 169, 224, 0.5);
+        }
+
+        body {
+            background-color: var(--stark-dark);
+            color: var(--stark-light);
+            font-family: 'Roboto', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        /* Custom Font for Headings */
+        .font-exo {
+            font-family: 'Exo', sans-serif;
+            text-shadow: 0 0 10px var(--hud-glow);
+        }
+
+        /* Nebula Canvas Background */
+        #nebula-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+        }
+        
+        /* HUD Overlay Effect */
+        .hud-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image:
+                linear-gradient(var(--arc-reactor-blue), var(--arc-reactor-blue) 1px, transparent 1px),
+                linear-gradient(90deg, var(--arc-reactor-blue), var(--arc-reactor-blue) 1px, transparent 1px);
+            background-size: 50px 50px, 50px 50px;
+            background-position: -1px -1px, -1px -1px;
+            opacity: 0.05;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Enhanced Glassmorphism Card Effect */
+        .card {
+            background: rgba(10, 16, 31, 0.7);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(0, 169, 224, 0.2);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 0 40px var(--hud-glow);
+            border-color: var(--arc-reactor-blue);
+        }
+
+        /* Arc Reactor Profile Image Frame */
+        .arc-reactor-frame {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid var(--arc-reactor-blue);
+            box-shadow: 0 0 20px var(--hud-glow), inset 0 0 15px var(--hud-glow);
+            animation: pulse 3s infinite ease-in-out;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 20px var(--hud-glow), inset 0 0 15px var(--hud-glow); }
+            50% { box-shadow: 0 0 30px var(--hud-glow), inset 0 0 25px var(--hud-glow); }
+            100% { box-shadow: 0 0 20px var(--hud-glow), inset 0 0 15px var(--hud-glow); }
+        }
+
+        .profile-img {
+            width: 160px;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid var(--stark-dark);
+        }
+
+        /* High-tech Social Links */
+        .social-link {
+            border: 1px solid rgba(0, 169, 224, 0.3);
+            color: var(--arc-reactor-blue);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .social-link:hover {
+            background-color: var(--arc-reactor-blue);
+            color: white;
+            transform: translateY(-4px);
+            box-shadow: 0 0 20px var(--hud-glow);
+        }
+        
+        /* Animated Skill Bars */
+        .skill-bar-container {
+            width: 100%;
+            background-color: rgba(0, 169, 224, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .skill-bar {
+            width: 0;
+            height: 10px;
+            background: linear-gradient(90deg, var(--arc-reactor-blue), var(--iron-man-red));
+            border-radius: 5px;
+            transition: width 1.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        
+        /* Enhanced Timeline */
+        .timeline-item {
+            position: relative;
+            padding-left: 2.5rem;
+            padding-bottom: 2.5rem;
+            border-left: 2px solid rgba(0, 169, 224, 0.2);
+        }
+        .timeline-item:last-child {
+            border-left-color: transparent;
+            padding-bottom: 0;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: -11px;
+            top: 0px;
+            height: 22px;
+            width: 22px;
+            background-color: var(--stark-dark);
+            border: 4px solid var(--arc-reactor-blue);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--hud-glow);
+            transition: transform 0.3s ease;
+        }
+        .timeline-item:hover .timeline-dot {
+            transform: scale(1.2);
+        }
+
+        /* Section Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="hud-overlay"></div>
+    <canvas id="nebula-canvas"></canvas>
+
+    <div class="relative min-h-screen flex flex-col items-center justify-center p-4 md:p-8 overflow-hidden">
+        <header class="text-center z-10 w-full flex flex-col items-center reveal visible">
+            <div class="arc-reactor-frame mb-8">
+                <img src="https://placehold.co/400x400/02040a/FFFFFF?text=RP" alt="Raj Patel" class="profile-img">
+            </div>
+
+            <h1 class="font-exo text-5xl md:text-7xl font-black uppercase tracking-widest text-white">
+                Raj Patel
+            </h1>
+            <p class="mt-4 text-xl md:text-2xl font-medium text-arc-reactor-blue">
+                Windows Cloud Engineer /// Systems & Automation Specialist
+            </p>
+
+            <div class="mt-8 flex space-x-5">
+                <a href="mailto:rajpatel2011998@gmail.com" class="social-link p-3 rounded-full" aria-label="Email">
+                    <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                </a>
+                <a href="https://www.linkedin.com/in/iamraj-patel/" target="_blank" rel="noopener noreferrer" class="social-link p-3 rounded-full" aria-label="LinkedIn">
+                    <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14zm-12 5v9h3v-4.5c0-1.2.6-2 1.5-2s1.5.8 1.5 2V17h3v-9h-3v1.5c-.5-1-1.5-1.5-2.5-1.5C6.5 8 5 9.2 5 11.5zM6.5 5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/></svg>
+                </a>
+                <a href="https://github.com/iamraj-patel" target="_blank" rel="noopener noreferrer" class="social-link p-3 rounded-full" aria-label="GitHub">
+                    <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.09.68-.22.68-.48 0-.24-.01-1.02-.01-1.85-2.78.6-3.37-1.18-3.37-1.18-.45-1.15-1.11-1.46-1.11-1.46-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.36 1.09 2.94.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.1.39-1.99 1.03-2.69-.1-.25-.45-1.28.1-2.65 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.4.1 2.65.64.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85 0 1.34-.01 2.42-.01 2.75 0 .27.18.58.69.48C19.13 20.17 22 16.42 22 12c0-5.52-4.48-10-10-10z"/></svg>
+                </a>
+            </div>
+        </header>
+    </div>
+    
+    <main class="container mx-auto px-4 py-16 max-w-4xl space-y-24">
+
+        <section class="card rounded-xl p-8 reveal">
+            <h2 class="font-exo text-4xl font-bold uppercase text-white mb-4 tracking-wider">Agent Profile</h2>
+            <p class="text-stark-grey leading-relaxed text-lg">
+                Top-tier <b class="text-stark-light font-semibold">Windows Cloud Engineer</b> with 3+ years managing secure enterprise infrastructure and multi-cloud environments. An expert operative in virtualization, cloud platforms (<b class="text-arc-reactor-blue">Azure, AWS, GCP</b>), and advanced automation protocols. Proven track record of enhancing deployment velocity, system uptime, and operational efficiency through innovative and resilient solutions.
+            </p>
+        </section>
+
+        <section class="card rounded-xl p-8 reveal">
+            <h2 class="font-exo text-4xl font-bold uppercase text-white mb-8 tracking-wider">Technical Arsenal</h2>
+            <div class="space-y-6">
+                <div>
+                    <h3 class="font-bold text-xl text-arc-reactor-blue mb-2">Cloud & Virtualization</h3>
+                    <div class="skill-bar-container"><div class="skill-bar" data-level="95%"></div></div>
+                </div>
+                <div>
+                    <h3 class="font-bold text-xl text-arc-reactor-blue mb-2">Automation & Scripting (PowerShell, Python, Ansible)</h3>
+                    <div class="skill-bar-container"><div class="skill-bar" data-level="90%"></div></div>
+                </div>
+                <div>
+                    <h3 class="font-bold text-xl text-arc-reactor-blue mb-2">OS & Core Services (Windows Server, Linux, AD)</h3>
+                    <div class="skill-bar-container"><div class="skill-bar" data-level="85%"></div></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="card rounded-xl p-8 reveal">
+            <h2 class="font-exo text-4xl font-bold uppercase text-white mb-8 tracking-wider">Field Projects</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <a href="https://github.com/iamraj-patel/shell-script" target="_blank" rel="noopener noreferrer" class="block border-2 border-gray-700 p-6 rounded-lg hover:border-iron-man-red hover:bg-gray-800/20 transition-all duration-300">
+                    <h3 class="font-bold text-xl text-stark-light mb-2">Shell Scripts for Automation</h3>
+                    <p class="text-stark-grey mb-4 text-sm">A classified repository of automations for Linux administration, rapid deployment, and system surveillance.</p>
+                    <span class="font-semibold text-iron-man-red">Access Repository &rarr;</span>
+                </a>
+                <a href="https://github.com/iamraj-patel/Ansible-Main" target="_blank" rel="noopener noreferrer" class="block border-2 border-gray-700 p-6 rounded-lg hover:border-iron-man-red hover:bg-gray-800/20 transition-all duration-300">
+                    <h3 class="font-bold text-xl text-stark-light mb-2">Ansible Playbooks</h3>
+                    <p class="text-stark-grey mb-4 text-sm">Advanced playbooks for configuration management, application deployment, and task orchestration.</p>
+                    <span class="font-semibold text-iron-man-red">Access Repository &rarr;</span>
+                </a>
+            </div>
+        </section>
+
+        <section class="card rounded-xl p-8 reveal">
+            <h2 class="font-exo text-4xl font-bold uppercase text-white mb-10 tracking-wider">Service Record</h2>
+            <div class="relative">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p class="text-sm text-arc-reactor-blue font-semibold">Apr 2024 – Present</p>
+                    <h3 class="text-2xl font-bold text-white mt-1">Windows Cloud Engineer</h3>
+                    <p class="font-medium text-stark-grey">Accenture</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p class="text-sm text-arc-reactor-blue font-semibold">Oct 2023 – Jul 2024</p>
+                    <h3 class="text-2xl font-bold text-white mt-1">IT Systems Administrator</h3>
+                    <p class="font-medium text-stark-grey">Motio Business Technology</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p class="text-sm text-arc-reactor-blue font-semibold">Oct 2022 – Oct 2023</p>
+                    <h3 class="text-2xl font-bold text-white mt-1">System Administrator</h3>
+                    <p class="font-medium text-stark-grey">Integrated Bioscience</p>
+                </div>
+                 <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <p class="text-sm text-arc-reactor-blue font-semibold">Oct 2021 – Oct 2022</p>
+                    <h3 class="text-2xl font-bold text-white mt-1">Jr. System Administrator</h3>
+                    <p class="font-medium text-stark-grey">Integrated Bioscience</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="card rounded-xl p-8 reveal">
+            <h2 class="font-exo text-4xl font-bold uppercase text-white mb-8 tracking-wider">Training & Credentials</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="font-bold text-xl text-iron-man-red mb-4">Certifications (Pending)</h3>
+                    <ul class="list-none space-y-2">
+                        <li class="flex items-center"><span class="text-arc-reactor-blue mr-3">&rarr;</span> Certified Kubernetes Administrator (CKA)</li>
+                        <li class="flex items-center"><span class="text-arc-reactor-blue mr-3">&rarr;</span> Azure Administrator Associate (AZ-104)</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-bold text-xl text-iron-man-red mb-4">Education</h3>
+                     <div class="space-y-4">
+                        <div>
+                            <p class="font-semibold text-white">Master of Computer Science</p>
+                            <p class="text-stark-grey text-sm">West Virginia State University (2019 – 2021)</p>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-white">Bachelor of Computer Engineering</p>
+                            <p class="text-stark-grey text-sm">Parul Institute of Technology (2014 – 2018)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="text-center py-10 px-4">
+        <p class="text-stark-grey text-sm">&copy; 2024 Raj Patel /// Mission Dossier Compiled. All Rights Reserved.</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Nebula Background Animation with Three.js
+        const canvas = document.getElementById('nebula-canvas');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 5;
+        
+        const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        const textureLoader = new THREE.TextureLoader();
+        
+        // Create a procedural noise texture for particles
+        const createNoiseTexture = () => {
+            const size = 128;
+            const data = new Uint8Array(size * size * 4);
+            for (let i = 0; i < size * size; i++) {
+                const random = Math.random() * 255;
+                const stride = i * 4;
+                data[stride] = random;
+                data[stride + 1] = random;
+                data[stride + 2] = random;
+                data[stride + 3] = 255;
+            }
+            const texture = new THREE.DataTexture(data, size, size, THREE.RGBAFormat);
+            texture.needsUpdate = true;
+            return texture;
+        };
+
+        const particleTexture = createNoiseTexture();
+
+        // Create two layers of particles for parallax effect
+        function createParticleSystem(count, color, size, speedFactor) {
+            const particlesGeometry = new THREE.BufferGeometry();
+            const positions = new Float32Array(count * 3);
+            const colors = new Float32Array(count * 3);
+            const particleColor = new THREE.Color(color);
+
+            for(let i = 0; i < count * 3; i++) {
+                positions[i] = (Math.random() - 0.5) * 20;
+                colors[i] = particleColor.r + (Math.random() - 0.5) * 0.2;
+                colors[i+1] = particleColor.g + (Math.random() - 0.5) * 0.2;
+                colors[i+2] = particleColor.b + (Math.random() - 0.5) * 0.2;
+            }
+
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: size,
+                map: particleTexture,
+                blending: THREE.AdditiveBlending,
+                depthWrite: false,
+                transparent: true,
+                vertexColors: true,
+                opacity: 0.7
+            });
+
+            const particleSystem = new THREE.Points(particlesGeometry, particlesMaterial);
+            particleSystem.userData.speedFactor = speedFactor;
+            return particleSystem;
+        }
+
+        const particles1 = createParticleSystem(8000, 0x00A9E0, 0.03, 0.1);
+        scene.add(particles1);
+
+        const particles2 = createParticleSystem(3000, 0xED1D24, 0.04, 0.05);
+        scene.add(particles2);
+
+        let mouseX = 0, mouseY = 0;
+        document.addEventListener('mousemove', (event) => {
+            mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+            mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+        });
+
+        const clock = new THREE.Clock();
+        const animate = () => {
+            const elapsedTime = clock.getElapsedTime();
+            
+            particles1.rotation.y = elapsedTime * particles1.userData.speedFactor;
+            particles2.rotation.y = elapsedTime * particles2.userData.speedFactor;
+
+            camera.position.x += (mouseX * 2 - camera.position.x) * 0.02;
+            camera.position.y += (mouseY * 2 - camera.position.y) * 0.02;
+            camera.lookAt(scene.position);
+
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
+        };
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        });
+
+        // Intersection Observer for animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+
+                    // Animate skill bars when they become visible
+                    const skillBars = entry.target.querySelectorAll('.skill-bar');
+                    skillBars.forEach(bar => {
+                        bar.style.width = bar.dataset.level;
+                    });
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
+
