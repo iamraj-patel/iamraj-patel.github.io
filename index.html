@@ -277,6 +277,7 @@
         .nav-links {
             display: flex;
             gap: 2rem;
+            align-items: center;
         }
 
         .nav-links a {
@@ -286,9 +287,23 @@
             position: relative;
         }
 
-        .nav-links a:hover {
+        .nav-links a:not(.btn-menu):hover {
             color: var(--heroic-red);
             text-shadow: var(--glow-red);
+        }
+
+        /* Special styling for Assemble button in menu */
+        .btn-menu {
+            border: 2px solid var(--heroic-red);
+            padding: 0.5rem 1.5rem;
+            color: var(--heroic-red) !important;
+            transition: all 0.3s ease;
+        }
+
+        .btn-menu:hover {
+            background: var(--heroic-red);
+            color: #fff !important;
+            box-shadow: var(--glow-red);
         }
 
         .menu-toggle {
@@ -300,12 +315,14 @@
 
         /* --- Hero Section --- */
         .hero {
-            min-height: 100vh;
+            min-height: 100dvh;
+            /* Fix for mobile browsers */
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
-            padding-top: var(--header-height);
+            padding-top: calc(var(--header-height) + 2rem);
+            /* Added extra padding */
             overflow: hidden;
         }
 
@@ -636,7 +653,7 @@
                 <a href="#skills">INFINITY STONES</a>
                 <a href="#projects">ENDGAME</a>
                 <a href="#experience">TIMELINE</a>
-                <a href="#contact" style="color: var(--heroic-red);">ASSEMBLE</a>
+                <a href="#contact" class="btn-menu">ASSEMBLE</a>
             </div>
         </nav>
     </header>
@@ -819,7 +836,7 @@
                 <div style="display: flex; justify-content: center; gap: 2rem; margin-bottom: 3rem;">
                     <a href="https://github.com/iamraj-patel" target="_blank" rel="noopener noreferrer"
                         style="color: #fff; font-family: var(--font-hero); font-size: 1.5rem;">GITHUB</a>
-                    <a href="https://www.linkedin.com/in/iamraj-patel/" target="_blank" rel="noopener noreferrer"
+                    <a href="https://www.linkedin.com/in/iamraj-patel" target="_blank" rel="noopener noreferrer"
                         style="color: #fff; font-family: var(--font-hero); font-size: 1.5rem;">LINKEDIN</a>
                 </div>
 
@@ -832,10 +849,19 @@
         // Mobile Menu
         const menuToggle = document.getElementById('menuToggle');
         const navLinks = document.getElementById('navLinks');
+        const navLinksItems = document.querySelectorAll('.nav-links a');
 
         menuToggle.addEventListener('click', () => {
             navLinks.classList.toggle('active');
             menuToggle.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
+        });
+
+        // Close menu when a link is clicked
+        navLinksItems.forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                menuToggle.textContent = '☰';
+            });
         });
 
         // Scroll Animations
