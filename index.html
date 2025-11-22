@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raj Patel | Endgame Protocol</title>
+    <meta name="description" content="Raj Patel - Windows Cloud Engineer. Whatever it takes.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Exo+2:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        /* --- Quantum Endgame Variables --- */
+        :root {
+            --quantum-void: #0b0d12;
+            --quantum-white: #e0e6ed;
+            --heroic-red: #e23636;
+            --infinity-gold: #ffb700;
+            --nano-blue: #00a8ff;
+            --soul-orange: #ff6b00;
+            --time-green: #00ff41;
+            --power-purple: #a600ff;
+
+            --font-hero: 'Anton', sans-serif;
+            --font-tech: 'Exo 2', sans-serif;
+
+            --glow-red: 0 0 20px rgba(226, 54, 54, 0.5);
+            --glow-blue: 0 0 20px rgba(0, 168, 255, 0.5);
+            --glow-gold: 0 0 20px rgba(255, 183, 0, 0.5);
+
+            --header-height: 80px;
+            --spacing-unit: 1rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: default;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--quantum-void);
+            color: var(--quantum-white);
+            font-family: var(--font-tech);
+            overflow-x: hidden;
+            line-height: 1.6;
+            background-image:
+                linear-gradient(rgba(226, 54, 54, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(226, 54, 54, 0.05) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        /* --- Quantum Realm Background --- */
+        #quantum-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at center, #1a1d26 0%, #0b0d12 100%);
+        }
+
+        /* --- Grid System --- */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: var(--spacing-unit);
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            width: 100%;
+        }
+
+        .col-full {
+            grid-column: 1 / -1;
+        }
+
+        .col-center {
+            grid-column: 3 / 11;
+        }
+
+        .col-left {
+            grid-column: 1 / 7;
+        }
+
+        .col-right {
+            grid-column: 7 / 13;
+        }
+
+        /* --- Typography --- */
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: var(--font-hero);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            line-height: 1;
+        }
+
+        h1 {
+            font-size: clamp(4rem, 10vw, 8rem);
+            background: linear-gradient(to bottom, #fff, #aaa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            color: var(--heroic-red);
+            margin-bottom: 3rem;
+            text-shadow: var(--glow-red);
+            position: relative;
+            display: inline-block;
+            border-left: 5px solid var(--quantum-white);
+            padding-left: 1rem;
+        }
+
+        .section-title-wrapper {
+            text-align: left;
+            margin-bottom: 2rem;
+            grid-column: 1 / -1;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 1rem;
+        }
+
+        p {
+            font-size: 1.2rem;
+            color: #b0b0b0;
+            margin-bottom: 1.5rem;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        /* --- Nano-Tech Utilities --- */
+        .section-padding {
+            padding: 8rem 0;
+            position: relative;
+        }
+
+        .nano-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            position: relative;
+            transition: all 0.4s ease;
+            overflow: hidden;
+        }
+
+        .nano-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 2px solid var(--heroic-red);
+            transform: scale(0.95);
+            opacity: 0;
+            transition: all 0.4s ease;
+            pointer-events: none;
+        }
+
+        .nano-card:hover::before {
+            transform: scale(1);
+            opacity: 1;
+            box-shadow: 0 0 20px rgba(226, 54, 54, 0.2);
+        }
+
+        .nano-card:hover {
+            background: rgba(226, 54, 54, 0.05);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 3rem;
+            font-family: var(--font-hero);
+            font-size: 1.5rem;
+            letter-spacing: 0.1em;
+            color: var(--quantum-white);
+            background: var(--heroic-red);
+            border: none;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            z-index: 10;
+            text-align: center;
+            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+        }
+
+        .btn:hover {
+            background: #fff;
+            color: var(--heroic-red);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            transform: scale(1.05);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--quantum-white);
+        }
+
+        .btn-outline:hover {
+            background: var(--quantum-white);
+            color: var(--quantum-void);
+        }
+
+        /* --- Header --- */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            z-index: 1000;
+            background: rgba(11, 13, 18, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-family: var(--font-hero);
+            font-size: 2rem;
+            color: var(--quantum-white);
+            letter-spacing: 0.05em;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo span {
+            color: var(--heroic-red);
+        }
+
+        .avengers-a {
+            width: 30px;
+            height: 30px;
+            border: 2px solid var(--heroic-red);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--heroic-red);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            font-family: var(--font-hero);
+            font-size: 1.2rem;
+            color: #aaa;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--heroic-red);
+            text-shadow: var(--glow-red);
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            color: var(--heroic-red);
+            cursor: pointer;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding-top: var(--header-height);
+            overflow: hidden;
+        }
+
+        .hero-content {
+            z-index: 2;
+            position: relative;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* Portal Animation */
+        .portal-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .portal-ring {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 4px solid transparent;
+            border-top-color: var(--soul-orange);
+            border-right-color: var(--infinity-gold);
+            animation: spin 3s linear infinite;
+            box-shadow: 0 0 30px rgba(255, 107, 0, 0.3);
+        }
+
+        .portal-ring::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border-radius: 50%;
+            border: 4px solid transparent;
+            border-bottom-color: var(--soul-orange);
+            border-left-color: var(--infinity-gold);
+            animation: spin-reverse 5s linear infinite;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin-reverse {
+            100% {
+                transform: rotate(-360deg);
+            }
+        }
+
+        .hero-image-container {
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            overflow: hidden;
+            position: relative;
+            z-index: 2;
+            border: 2px solid var(--infinity-gold);
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: contrast(1.2) saturate(1.1);
+        }
+
+        .hero-subtitle {
+            color: var(--heroic-red);
+            font-family: var(--font-hero);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            display: block;
+            font-size: 1.5rem;
+        }
+
+        .hero-actions {
+            margin-top: 3rem;
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        /* --- About Section --- */
+        .about-content {
+            grid-column: 1 / 7;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .about-card {
+            grid-column: 7 / 13;
+        }
+
+        /* --- Skills (Infinity Stones) --- */
+        .skills-grid {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .stone-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stone-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stone-glow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            box-shadow: 0 0 20px currentColor;
+        }
+
+        .skill-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        /* --- Projects --- */
+        .projects-grid {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 3rem;
+        }
+
+        .project-card {
+            padding: 3rem;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, transparent 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .project-card:hover {
+            border-color: var(--heroic-red);
+            box-shadow: var(--glow-red);
+        }
+
+        .project-title {
+            font-family: var(--font-hero);
+            font-size: 2.5rem;
+            color: var(--quantum-white);
+            margin-bottom: 1rem;
+        }
+
+        /* --- Timeline --- */
+        .timeline-wrapper {
+            grid-column: 3 / 11;
+        }
+
+        .timeline-item {
+            border-left: 2px solid var(--heroic-red);
+            padding-left: 2rem;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 0;
+            width: 10px;
+            height: 10px;
+            background: var(--quantum-void);
+            border: 2px solid var(--heroic-red);
+            box-shadow: 0 0 10px var(--heroic-red);
+            border-radius: 50%;
+        }
+
+        .timeline-date {
+            color: var(--heroic-red);
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+            display: block;
+            font-family: var(--font-hero);
+        }
+
+        /* --- Footer --- */
+        footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 5rem 0;
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            background: #050608;
+            position: relative;
+        }
+
+        .contact-content {
+            grid-column: 1 / -1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 992px) {
+
+            .col-left,
+            .col-right,
+            .about-content,
+            .about-card,
+            .timeline-wrapper {
+                grid-column: 1 / -1;
+            }
+
+            .about-grid {
+                display: flex;
+                flex-direction: column;
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: var(--quantum-void);
+                flex-direction: column;
+                justify-content: center;
+                transform: translateX(100%);
+                transition: 0.3s ease;
+                z-index: 999;
+                border-left: 1px solid var(--heroic-red);
+            }
+
+            .nav-links.active {
+                transform: translateX(0);
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .portal-container {
+                width: 250px;
+                height: 250px;
+            }
+
+            .hero-image-container {
+                width: 200px;
+                height: 200px;
+            }
+        }
+
+        /* Entrance Animation */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="quantum-canvas"></canvas>
+
+    <header>
+        <nav>
+            <a href="#" class="logo">
+                <div class="avengers-a">A</div>
+                RAJ <span>PATEL</span>
+            </a>
+            <div class="menu-toggle" id="menuToggle">☰</div>
+            <div class="nav-links" id="navLinks">
+                <a href="#about">THE TIME HEIST</a>
+                <a href="#skills">INFINITY STONES</a>
+                <a href="#projects">ENDGAME</a>
+                <a href="#experience">TIMELINE</a>
+                <a href="#contact" style="color: var(--heroic-red);">ASSEMBLE</a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="grid-container">
+            <div class="hero-content col-center animate-on-scroll">
+
+                <!-- Portal Animation -->
+                <div class="portal-container">
+                    <div class="portal-ring"></div>
+                    <div class="hero-image-container">
+                        <img src="image.png" alt="Raj Patel" class="hero-image">
+                    </div>
+                </div>
+
+                <span class="hero-subtitle">WHATEVER IT TAKES</span>
+                <h1>RAJ PATEL</h1>
+                <p style="font-size: 1.3rem; color: #fff; margin-bottom: 3rem; max-width: 600px;">
+                    "Part of the journey is the end... but this is just the start of my cloud engineering legacy."
+                </p>
+
+                <div class="hero-actions">
+                    <a href="#projects" class="btn">VIEW ENDGAME</a>
+                    <a href="mailto:rajpatel2011998@gmail.com" class="btn btn-outline">INITIATE COMMS</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="section-padding">
+        <div class="grid-container">
+            <div class="section-title-wrapper animate-on-scroll">
+                <h2>THE TIME HEIST</h2>
+            </div>
+
+            <div class="about-content animate-on-scroll">
+                <p>I am a Windows Cloud Engineer with a mission: to protect the timeline of enterprise infrastructure.
+                    With over 3 years of experience, I've traveled through the realms of Virtualization, Automation, and
+                    Cloud Computing.</p>
+                <p>Like the Avengers assembling the stones, I bring together disparate technologies to create a unified,
+                    powerful system. Failure is not an option.</p>
+            </div>
+
+            <div class="about-card animate-on-scroll">
+                <div class="nano-card">
+                    <h3 style="color: var(--heroic-red); margin-bottom: 1rem;">MISSION OBJECTIVES</h3>
+                    <ul style="list-style: none; line-height: 2; color: #fff;">
+                        <li>⬢ Cloud Migration & Architecture</li>
+                        <li>⬢ Infrastructure Automation</li>
+                        <li>⬢ Security Wards</li>
+                        <li>⬢ High Availability Systems</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="section-padding">
+        <div class="grid-container">
+            <div class="section-title-wrapper animate-on-scroll">
+                <h2>INFINITY STONES</h2>
+            </div>
+
+            <div class="skills-grid">
+                <!-- Space Stone -->
+                <div class="stone-card animate-on-scroll">
+                    <div class="stone-glow"
+                        style="background: var(--nano-blue); box-shadow: 0 0 20px var(--nano-blue);"></div>
+                    <span class="skill-icon" style="color: var(--nano-blue);">☁</span>
+                    <h3>SPACE (CLOUD)</h3>
+                    <p>Azure, AWS, GCP</p>
+                </div>
+
+                <!-- Reality Stone -->
+                <div class="stone-card animate-on-scroll">
+                    <div class="stone-glow"
+                        style="background: var(--heroic-red); box-shadow: 0 0 20px var(--heroic-red);"></div>
+                    <span class="skill-icon" style="color: var(--heroic-red);">💻</span>
+                    <h3>REALITY (VIRTUAL)</h3>
+                    <p>VMware, Hyper-V</p>
+                </div>
+
+                <!-- Time Stone -->
+                <div class="stone-card animate-on-scroll">
+                    <div class="stone-glow"
+                        style="background: var(--time-green); box-shadow: 0 0 20px var(--time-green);"></div>
+                    <span class="skill-icon" style="color: var(--time-green);">⏳</span>
+                    <h3>TIME (AUTO)</h3>
+                    <p>PowerShell, Python, Ansible</p>
+                </div>
+
+                <!-- Power Stone -->
+                <div class="stone-card animate-on-scroll">
+                    <div class="stone-glow"
+                        style="background: var(--power-purple); box-shadow: 0 0 20px var(--power-purple);"></div>
+                    <span class="skill-icon" style="color: var(--power-purple);">⚡</span>
+                    <h3>POWER (SYSADMIN)</h3>
+                    <p>Windows Server, Linux, AD</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="section-padding">
+        <div class="grid-container">
+            <div class="section-title-wrapper animate-on-scroll">
+                <h2>ENDGAME SCENARIOS</h2>
+            </div>
+
+            <div class="projects-grid">
+                <div class="project-card animate-on-scroll">
+                    <h3 class="project-title">SHELL SCRIPTS</h3>
+                    <p style="margin-bottom: 2rem; flex-grow: 1;">A tactical arsenal of automation scripts. The ultimate
+                        weapon against manual labor and inefficiency.</p>
+                    <a href="https://github.com/iamraj-patel/shell-script" target="_blank" rel="noopener noreferrer"
+                        class="btn" style="width: 100%;">ACCESS ARCHIVES</a>
+                </div>
+
+                <div class="project-card animate-on-scroll">
+                    <h3 class="project-title">ANSIBLE PLAYBOOKS</h3>
+                    <p style="margin-bottom: 2rem; flex-grow: 1;">Orchestrating the battlefield. Configuration
+                        management that snaps infrastructure into existence.</p>
+                    <a href="https://github.com/iamraj-patel/Ansible-Main" target="_blank" rel="noopener noreferrer"
+                        class="btn" style="width: 100%;">ACCESS ARCHIVES</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience" class="section-padding">
+        <div class="grid-container">
+            <div class="section-title-wrapper animate-on-scroll">
+                <h2>TIMELINE</h2>
+            </div>
+
+            <div class="timeline-wrapper">
+                <div class="timeline-item animate-on-scroll">
+                    <span class="timeline-date">APR 2024 – PRESENT</span>
+                    <h3 style="color: #fff;">WINDOWS CLOUD ENGINEER</h3>
+                    <p style="color: var(--heroic-red); margin-bottom: 0.5rem; font-weight: 700;">ACCENTURE</p>
+                    <p>Defending enterprise infrastructure in Azure. Leading the charge on cloud migrations and
+                        security.</p>
+                </div>
+                <div class="timeline-item animate-on-scroll">
+                    <span class="timeline-date">OCT 2023 – JUL 2024</span>
+                    <h3 style="color: #fff;">IT SYSTEMS ADMINISTRATOR</h3>
+                    <p style="color: var(--heroic-red); margin-bottom: 0.5rem; font-weight: 700;">MOTIO BUSINESS
+                        TECHNOLOGY</p>
+                    <p>Reduced setup time by 35% using advanced automation. Maintained 99.9% uptime against all threats.
+                    </p>
+                </div>
+                <div class="timeline-item animate-on-scroll">
+                    <span class="timeline-date">OCT 2022 – OCT 2023</span>
+                    <h3 style="color: #fff;">SYSTEM ADMINISTRATOR</h3>
+                    <p style="color: var(--heroic-red); margin-bottom: 0.5rem; font-weight: 700;">INTEGRATED BIOSCIENCE
+                    </p>
+                    <p>Migrated servers to Hyper-V and implemented failover protocols. Centralized authentication
+                        systems.</p>
+                </div>
+                <div class="timeline-item animate-on-scroll">
+                    <span class="timeline-date">OCT 2021 – OCT 2022</span>
+                    <h3 style="color: #fff;">JR. SYSTEM ADMINISTRATOR</h3>
+                    <p style="color: var(--heroic-red); margin-bottom: 0.5rem; font-weight: 700;">INTEGRATED BIOSCIENCE
+                    </p>
+                    <p>Deployed Active Directory for centralized command. Implemented WSUS for strategic updates.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="grid-container">
+            <div class="contact-content animate-on-scroll">
+                <h2 style="font-size: 4rem; margin-bottom: 1rem; color: #fff; text-shadow: 0 0 20px var(--heroic-red);">
+                    AVENGERS...</h2>
+                <a href="mailto:rajpatel2011998@gmail.com" class="btn"
+                    style="font-size: 2rem; padding: 1.5rem 4rem; margin-bottom: 3rem;">ASSEMBLE</a>
+
+                <div style="display: flex; justify-content: center; gap: 2rem; margin-bottom: 3rem;">
+                    <a href="https://github.com/iamraj-patel" target="_blank" rel="noopener noreferrer"
+                        style="color: #fff; font-family: var(--font-hero); font-size: 1.5rem;">GITHUB</a>
+                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
+                        style="color: #fff; font-family: var(--font-hero); font-size: 1.5rem;">LINKEDIN</a>
+                </div>
+
+                <p>© 2025 RAJ PATEL — I LOVE YOU 3000.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuToggle.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
+        });
+
+        // Scroll Animations
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+
+</html>
