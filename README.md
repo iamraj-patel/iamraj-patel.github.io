@@ -39,10 +39,14 @@ Highly skilled **Systems Administrator** with over 3 years of experience managin
 ---
 
 ### 📊 GitHub Ecosystem
-<div align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=iamraj-patel&show_icons=true&theme=tokyonight&count_private=true" alt="Raj's GitHub Stats" />
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=iamraj-patel&layout=compact&theme=tokyonight" alt="Top Languages" />
-</div>
+<p align="center">
+  <img height="180em" src="https://github-readme-stats.vercel.app/api?username=iamraj-patel&show_icons=true&theme=tokyonight&count_private=true&include_all_commits=true" />
+  <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=iamraj-patel&layout=compact&theme=tokyonight&hide_border=true" />
+</p>
+
+<p align="center">
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=iamraj-patel&theme=tokyonight&hide_border=true" />
+</p>
 
 ---
 
