@@ -38,18 +38,6 @@ Highly skilled **Systems Administrator** with over 3 years of experience managin
 
 ---
 
-### 📊 GitHub Ecosystem
-<p align="center">
-  <img height="180em" src="https://github-readme-stats.vercel.app/api?username=iamraj-patel&show_icons=true&theme=tokyonight&count_private=true&include_all_commits=true" />
-  <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=iamraj-patel&layout=compact&theme=tokyonight&hide_border=true" />
-</p>
-
-<p align="center">
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=iamraj-patel&theme=tokyonight&hide_border=true" />
-</p>
-
----
-
 ### 🧪 Featured Projects & Experience
 * **Infrastructure as Code:** Automated patching and server deployment using Ansible and Semaphore.
 * **Web Security:** Configured Apache reverse proxies with Let's Encrypt SSL for secure resource exposure.
