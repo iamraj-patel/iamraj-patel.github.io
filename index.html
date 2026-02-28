@@ -8,6 +8,10 @@
         content="Raj Patel | Sorcerer's Seal Refined. Professional Cloud Architect portfolio with master-level aesthetic and animated UI.">
     <title>Raj Patel | Sorcerer's Seal Refined</title>
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="apple-touch-icon" href="icon.png">
+
     <!-- Premium Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -60,28 +64,38 @@
             width: 100%;
         }
 
-        /* --- Magic Cursor --- */
-        #magic-cursor {
-            position: fixed;
-            width: 8px;
-            height: 8px;
-            background: var(--portal-gold);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 10000;
-            box-shadow: 0 0 15px var(--portal-gold);
+        /* --- Magic Cursor Logic --- */
+        #magic-cursor,
+        #magic-aura {
+            display: none;
         }
 
-        #magic-aura {
-            position: fixed;
-            width: 35px;
-            height: 35px;
-            border: 1px solid var(--portal-gold);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            transition: transform 0.15s var(--ease-magic);
-            opacity: 0.3;
+        /* Enable only on large hoverable devices */
+        @media (hover: hover) and (min-width: 1025px) {
+            #magic-cursor {
+                position: fixed;
+                width: 8px;
+                height: 8px;
+                background: var(--portal-gold);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 10000;
+                box-shadow: 0 0 15px var(--portal-gold);
+                display: block;
+            }
+
+            #magic-aura {
+                position: fixed;
+                width: 35px;
+                height: 35px;
+                border: 1px solid var(--portal-gold);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 9999;
+                transition: transform 0.15s var(--ease-magic);
+                opacity: 0.3;
+                display: block;
+            }
         }
 
         /* --- Background Particles --- */
@@ -103,7 +117,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 6000;
+            z-index: 9000;
+            /* Stays above the overlay */
             transition: 0.5s var(--ease-magic);
         }
 
@@ -160,18 +175,20 @@
         /* Mobile Menu Controls */
         .menu-controls {
             display: none;
-            z-index: 7000;
+            z-index: 10000;
+            position: relative;
         }
 
         .menu-trigger {
             width: 30px;
-            height: 20px;
+            height: 22px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             transition: 0.4s;
             background: transparent;
             border: none;
+            padding: 0;
         }
 
         .menu-trigger span {
@@ -179,18 +196,21 @@
             height: 2px;
             background: var(--portal-gold);
             transition: 0.4s var(--ease-magic);
+            transform-origin: center;
         }
 
+        /* Morph Animation */
         .menu-trigger.active span:nth-child(1) {
-            transform: translateY(9px) rotate(45deg);
+            transform: translateY(10px) rotate(45deg);
         }
 
         .menu-trigger.active span:nth-child(2) {
             opacity: 0;
+            transform: scaleX(0);
         }
 
         .menu-trigger.active span:nth-child(3) {
-            transform: translateY(-9px) rotate(-45deg);
+            transform: translateY(-10px) rotate(-45deg);
         }
 
         /* Full Screen Overlay */
@@ -236,50 +256,9 @@
             transform: translateY(0);
         }
 
-        /* Animated Cancel Button */
-        .btn-cancel {
-            position: absolute;
-            bottom: 10vh;
-            width: 60px;
-            height: 60px;
-            background: transparent;
-            border: 2px solid rgba(212, 175, 55, 0.3);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: 0.4s var(--ease-magic);
-            overflow: hidden;
-        }
-
-        .btn-cancel::before,
-        .btn-cancel::after {
-            content: '';
-            position: absolute;
-            width: 25px;
-            height: 2px;
-            background: var(--portal-gold);
-            transition: 0.4s;
-        }
-
-        .btn-cancel::before {
-            transform: rotate(45deg);
-        }
-
-        .btn-cancel::after {
-            transform: rotate(-45deg);
-        }
-
-        .btn-cancel:hover {
-            border-color: var(--portal-gold);
-            box-shadow: 0 0 20px var(--portal-gold);
-            transform: rotate(90deg) scale(1.1);
-        }
-
-        .btn-cancel:hover::before,
-        .btn-cancel:hover::after {
-            background: #fff;
-            box-shadow: 0 0 10px #fff;
+        #mobile-overlay a:hover {
+            color: var(--portal-gold);
+            transform: scale(1.1);
         }
 
         /* --- Hero Section --- */
@@ -659,9 +638,6 @@
         <a href="#projects" style="transition-delay: 0.3s;" onclick="toggleMenu()">Spells</a>
         <a href="#experience" style="transition-delay: 0.4s;" onclick="toggleMenu()">History</a>
         <a href="#contact" style="transition-delay: 0.5s;" onclick="toggleMenu()">Assemble</a>
-
-        <!-- Premium Cancel Button -->
-        <button class="btn-cancel" onclick="toggleMenu()" aria-label="Close Menu"></button>
     </div>
 
     <main>
@@ -841,15 +817,20 @@
     </footer>
 
     <script>
-        // --- Magic Cursor Flow ---
+        // --- Magic Cursor Flow (Desktop Only) ---
         const cursor = document.getElementById('magic-cursor');
         const aura = document.getElementById('magic-aura');
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-            aura.style.left = (e.clientX - 17.5) + 'px';
-            aura.style.top = (e.clientY - 17.5) + 'px';
-        });
+
+        const isHoverDevice = window.matchMedia("(hover: hover) and (min-width: 1025px)").matches;
+
+        if (isHoverDevice && cursor && aura) {
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+                aura.style.left = (e.clientX - 17.5) + 'px';
+                aura.style.top = (e.clientY - 17.5) + 'px';
+            });
+        }
 
         // --- Improved Menu Toggle ---
         function toggleMenu() {
