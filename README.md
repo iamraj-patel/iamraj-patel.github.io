@@ -9,7 +9,11 @@
   <img src="https://img.shields.io/badge/Status-Learning%20CKA-green?style=for-the-badge" />
 </p>
 
-[![Typing SVG](https://readme-typing-svg.herokuapp.com?font=Fira+Code&pause=1000&color=36BCF7&width=435&lines=Optimizing+Enterprise+IT;Automating+with+Ansible+%26+PS;Cloud+Migration+Expert;99.9%25+Uptime+Driven)](https://git.io/typing-svg)
+<p align="center">
+  <a href="https://git.io/typing-svg">
+    <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=22&pause=1000&color=36BCF7&center=true&vCenter=true&width=500&lines=Optimizing+Enterprise+IT;Automating+with+Ansible+%26+PS;Cloud+Migration+Expert;99.9%25+Uptime+Driven" alt="Typing SVG" />
+  </a>
+</p>
 
 </div>
 
