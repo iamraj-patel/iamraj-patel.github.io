@@ -575,24 +575,27 @@
             }
 
             .btn-group {
-                flex-direction: row;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
                 justify-content: center;
-                align-items: stretch;
                 gap: 1rem;
-                flex-wrap: nowrap;
                 width: 100%;
+                max-width: 450px;
+                margin-left: auto;
+                margin-right: auto;
             }
 
             .btn-supreme {
-                flex: 1 1 0;
                 display: flex;
                 justify-content: center;
                 align-items: center;
                 text-align: center;
-                padding: 1rem 0;
-                font-size: 0.70rem;
+                padding: 1.2rem 0.5rem;
+                font-size: 0.65rem;
+                letter-spacing: 2px;
                 box-sizing: border-box;
                 white-space: nowrap;
+                width: 100%;
             }
 
             .history-list {
