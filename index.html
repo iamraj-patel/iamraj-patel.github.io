@@ -547,11 +547,21 @@
                 display: flex;
                 flex-direction: column;
                 align-items: center;
+                text-align: center;
+                /* Ensures text children inherit centering */
+            }
+
+            .hero-desc {
+                margin-left: auto !important;
+                margin-right: auto !important;
+                text-align: center;
             }
 
             .btn-group {
                 justify-content: center;
                 width: 100%;
+                margin-left: auto;
+                margin-right: auto;
             }
 
             .hero-visual {
@@ -676,7 +686,8 @@
                     <span>RAJ</span>
                     <span>PATEL</span>
                 </h1>
-                <p style="color: var(--text-dim); line-height: 2; font-size: 1.15rem; max-width: 600px;">
+                <p class="hero-desc"
+                    style="color: var(--text-dim); line-height: 2; font-size: 1.15rem; max-width: 600px;">
                     Orchestrating high-availability realms across Azure, AWS, and GCP. Specializing in immutable
                     infrastructure, security wards, and automated scaling spells.
                 </p>
